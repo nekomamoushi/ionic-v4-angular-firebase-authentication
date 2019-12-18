@@ -3,6 +3,7 @@ import {
   ActivatedRouteSnapshot,
   RouterStateSnapshot,
   UrlTree,
+  CanLoad,
   UrlSegment,
   Router
 } from "@angular/router";
