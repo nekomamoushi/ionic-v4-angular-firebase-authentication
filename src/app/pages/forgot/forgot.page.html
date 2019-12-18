@@ -10,18 +10,26 @@
       Please enter your Email so we can send you an email to reset your
       password.
     </p>
+
     <ion-item>
       <ion-label color="secondary" position="floating" color="primary"
         >Email</ion-label
       >
       <ion-input type="text" formControlName="email"></ion-input>
     </ion-item>
+    <ion-item
+      class="error"
+      *ngIf="!forgotForm.controls['email'].valid && forgotForm.controls['email'].touched"
+    >
+      <ion-label>Please enter a valid email address.</ion-label>
+    </ion-item>
+
     <ion-button
       class="recover-btn"
       color="tertiary"
       expand="block"
       type="submit"
-      disabled
+      [disabled]="!forgotForm.valid"
       >Recover</ion-button
     >
   </form>

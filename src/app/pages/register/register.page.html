@@ -12,22 +12,37 @@
       >
       <ion-input type="text" formControlName="username"></ion-input>
     </ion-item>
+
     <ion-item>
       <ion-label color="secondary" position="floating" color="primary"
         >Email</ion-label
       >
       <ion-input type="text" formControlName="email"></ion-input>
     </ion-item>
+    <ion-item
+      class="error"
+      *ngIf="!registerForm.controls['email'].valid && registerForm.controls['email'].touched"
+    >
+      <ion-label>Please enter a valid email address.</ion-label>
+    </ion-item>
+
     <ion-item>
       <ion-label position="floating" color="primary">Password</ion-label>
       <ion-input type="password" formControlName="password"></ion-input>
     </ion-item>
+    <ion-item
+      class="error"
+      *ngIf="!registerForm.controls['password'].valid && registerForm.controls['password'].touched"
+    >
+      <ion-label>Your password needs more than 8 characters.</ion-label>
+    </ion-item>
+
     <ion-button
       class="register-btn"
       color="tertiary"
       expand="block"
       type="submit"
-      disabled
+      [disabled]="!registerForm.valid"
       >Register</ion-button
     >
   </form>
