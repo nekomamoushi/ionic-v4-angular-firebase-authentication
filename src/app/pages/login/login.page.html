@@ -5,7 +5,7 @@
 </ion-header>
 
 <ion-content>
-  <form [formGroup]="loginForm">
+  <form [formGroup]="loginForm" (ngSubmit)="onSubmit()">
     <ion-item>
       <ion-label color="secondary" position="floating" color="primary"
         >Email</ion-label

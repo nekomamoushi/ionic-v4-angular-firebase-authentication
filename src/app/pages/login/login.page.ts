@@ -5,6 +5,8 @@ import {
   FormControl,
   Validators
 } from "@angular/forms";
+import { LoadingController } from "@ionic/angular";
+import { Router } from "@angular/router";
 
 @Component({
   selector: "app-login",
@@ -13,8 +15,13 @@ import {
 })
 export class LoginPage implements OnInit {
   loginForm: FormGroup;
+  isLoading = false;
 
-  constructor(private formBuilder: FormBuilder) {}
+  constructor(
+    private formBuilder: FormBuilder,
+    private loadingCtrl: LoadingController,
+    private router: Router
+  ) {}
 
   ngOnInit() {
     this.loginForm = this.formBuilder.group({
@@ -30,5 +37,30 @@ export class LoginPage implements OnInit {
         Validators.compose([Validators.required, Validators.minLength(8)])
       )
     });
+  }
+
+  onSubmit() {
+    if (!this.loginForm.valid) {
+      return;
+    }
+    const { email, password } = this.loginForm.value;
+    this.login(email, password);
+  }
+
+  login(email: string, password: string) {
+    this.isLoading = true;
+    this.loadingCtrl
+      .create({
+        message: "Logging in..."
+      })
+      .then(loadingEl => {
+        loadingEl.present();
+        setTimeout(() => {
+          console.log("Logged In !!!");
+          this.isLoading = false;
+          loadingEl.dismiss();
+          this.router.navigateByUrl("/profile");
+        }, 2000);
+      });
   }
 }
