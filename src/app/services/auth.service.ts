@@ -49,6 +49,17 @@ export class AuthService {
       );
   }
 
+  forgot(email: string) {
+    return this.http.post(
+      `https://identitytoolkit.googleapis.com/v1/accounts:sendOobCode?key=${this.firebaseKey}`,
+      {
+        requestType: "PASSWORD_RESET",
+        email: email,
+        returnSecureToken: true
+      }
+    );
+  }
+
   logout() {
     this._isAuthenticated = false;
   }
