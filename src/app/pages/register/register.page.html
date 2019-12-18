@@ -5,7 +5,7 @@
 </ion-header>
 
 <ion-content>
-  <form [formGroup]="registerForm">
+  <form [formGroup]="registerForm" (ngSubmit)="onSubmit()">
     <ion-item>
       <ion-label color="secondary" position="floating" color="primary"
         >Username</ion-label
