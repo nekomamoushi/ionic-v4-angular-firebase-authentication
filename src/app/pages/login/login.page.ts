@@ -5,7 +5,7 @@ import {
   FormControl,
   Validators
 } from "@angular/forms";
-import { LoadingController } from "@ionic/angular";
+import { LoadingController, AlertController } from "@ionic/angular";
 import { Router } from "@angular/router";
 import { AuthService } from "../../services/auth.service";
 
@@ -22,7 +22,8 @@ export class LoginPage implements OnInit {
     private formBuilder: FormBuilder,
     private loadingCtrl: LoadingController,
     private router: Router,
-    private authService: AuthService
+    private authService: AuthService,
+    private alertCtrl: AlertController
   ) {}
 
   ngOnInit() {
@@ -57,13 +58,34 @@ export class LoginPage implements OnInit {
       })
       .then(loadingEl => {
         loadingEl.present();
-        setTimeout(() => {
-          console.log("Logged In !!!");
-          this.isLoading = false;
-          this.authService.login();
-          loadingEl.dismiss();
-          this.router.navigateByUrl("/profile");
-        }, 2000);
+        this.authService.login(email, password).subscribe(
+          responseData => {
+            this.isLoading = false;
+            loadingEl.dismiss();
+            this.router.navigateByUrl("/profile");
+          },
+          errorData => {
+            this.isLoading = false;
+            loadingEl.dismiss();
+            let message = "Could not signup, try again later";
+            if (errorData.error.error.message === "EMAIL_NOT_FOUND") {
+              message = "Email could not be found";
+            } else if (errorData.error.error.message === "INVALID_PASSWORD") {
+              message = "Password is not correct";
+            }
+            this.showAlert(message);
+          }
+        );
       });
+  }
+
+  private showAlert(message: string) {
+    this.alertCtrl
+      .create({
+        header: "Authentication failed!",
+        message: message,
+        buttons: ["Ok"]
+      })
+      .then(alertEl => alertEl.present());
   }
 }
