@@ -5,7 +5,7 @@ import {
   FormControl,
   Validators
 } from "@angular/forms";
-import { LoadingController } from "@ionic/angular";
+import { LoadingController, AlertController } from "@ionic/angular";
 import { AuthService } from "src/app/services/auth.service";
 import { Router } from "@angular/router";
 
@@ -22,7 +22,8 @@ export class RegisterPage implements OnInit {
     private formBuilder: FormBuilder,
     private loadingCtrl: LoadingController,
     private authService: AuthService,
-    private router: Router
+    private router: Router,
+    private alertCtrl: AlertController
   ) {}
 
   ngOnInit() {
@@ -64,11 +65,32 @@ export class RegisterPage implements OnInit {
       })
       .then(loadingEl => {
         loadingEl.present();
-        this.authService.signup(email, password).subscribe(responseData => {
-          this.isLoading = false;
-          loadingEl.dismiss();
-          this.router.navigateByUrl("/profile");
-        });
+        this.authService.signup(email, password).subscribe(
+          responseData => {
+            this.isLoading = false;
+            loadingEl.dismiss();
+            this.router.navigateByUrl("/profile");
+          },
+          errorData => {
+            this.isLoading = false;
+            loadingEl.dismiss();
+            let message = "Could not signup, try again later";
+            if (errorData.error.error.message === "EMAIL_EXISTS") {
+              message = "This email address already exists";
+            }
+            this.showAlert(message);
+          }
+        );
       });
+  }
+
+  private showAlert(message: string) {
+    this.alertCtrl
+      .create({
+        header: "Authentication failed!",
+        message: message,
+        buttons: ["Ok"]
+      })
+      .then(alertEl => alertEl.present());
   }
 }
