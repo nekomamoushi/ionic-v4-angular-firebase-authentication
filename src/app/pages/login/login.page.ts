@@ -7,6 +7,7 @@ import {
 } from "@angular/forms";
 import { LoadingController } from "@ionic/angular";
 import { Router } from "@angular/router";
+import { AuthService } from "../../services/auth.service";
 
 @Component({
   selector: "app-login",
@@ -20,7 +21,8 @@ export class LoginPage implements OnInit {
   constructor(
     private formBuilder: FormBuilder,
     private loadingCtrl: LoadingController,
-    private router: Router
+    private router: Router,
+    private authService: AuthService
   ) {}
 
   ngOnInit() {
@@ -58,6 +60,7 @@ export class LoginPage implements OnInit {
         setTimeout(() => {
           console.log("Logged In !!!");
           this.isLoading = false;
+          this.authService.login();
           loadingEl.dismiss();
           this.router.navigateByUrl("/profile");
         }, 2000);
