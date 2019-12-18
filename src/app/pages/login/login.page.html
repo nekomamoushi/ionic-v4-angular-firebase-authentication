@@ -29,7 +29,11 @@
     >
       <ion-label>Your password needs more than 8 characters.</ion-label>
     </ion-item>
-
+    <div class="ion-text-right" style="margin: 10px 5px" routerLink="/forgot">
+      <ion-text color="primary" style="text-decoration: underline;">
+        Forgot password
+      </ion-text>
+    </div>
     <ion-button
       class="login-btn"
       color="tertiary"
@@ -39,5 +43,7 @@
       >Login</ion-button
     >
   </form>
-  <p class="ion-text-center">Don't have an account yet ? <a>Sign Up</a></p>
+  <p class="ion-text-center">
+    Don't have an account yet ? <a routerLink="/register">Sign Up</a>
+  </p>
 </ion-content>
