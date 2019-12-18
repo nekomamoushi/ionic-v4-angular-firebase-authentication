@@ -1,4 +1,5 @@
 import { Injectable } from "@angular/core";
+import { environment } from "../../environments/environment";
 import { HttpClient } from "@angular/common/http";
 import { map, tap } from "rxjs/operators";
 
@@ -7,7 +8,6 @@ import { map, tap } from "rxjs/operators";
 })
 export class AuthService {
   _isAuthenticated = false;
-  firebaseKey = "AIzaSyCyqoH3kuXG3hp6WuSWm78kd_kctNFaRA8";
 
   get isAuth() {
     return this._isAuthenticated;
@@ -18,7 +18,7 @@ export class AuthService {
   signup(email: string, password: string) {
     return this.http
       .post(
-        `https://identitytoolkit.googleapis.com/v1/accounts:signUp?key=${this.firebaseKey}`,
+        `https://identitytoolkit.googleapis.com/v1/accounts:signUp?key=${environment.firebaseApiKey}`,
         {
           email: email,
           password: password,
@@ -35,7 +35,7 @@ export class AuthService {
   login(email: string, password: string) {
     return this.http
       .post(
-        `https://identitytoolkit.googleapis.com/v1/accounts:signInWithPassword?key=${this.firebaseKey}`,
+        `https://identitytoolkit.googleapis.com/v1/accounts:signInWithPassword?key=${environment.firebaseApiKey}`,
         {
           email: email,
           password: password,
@@ -51,7 +51,7 @@ export class AuthService {
 
   forgot(email: string) {
     return this.http.post(
-      `https://identitytoolkit.googleapis.com/v1/accounts:sendOobCode?key=${this.firebaseKey}`,
+      `https://identitytoolkit.googleapis.com/v1/accounts:sendOobCode?key=${environment.firebaseApiKey}`,
       {
         requestType: "PASSWORD_RESET",
         email: email,
