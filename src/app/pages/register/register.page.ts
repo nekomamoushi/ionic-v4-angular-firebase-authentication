@@ -55,6 +55,7 @@ export class RegisterPage implements OnInit {
     }
     const { email, password } = this.registerForm.value;
     this.register(email, password);
+    this.registerForm.reset();
   }
 
   register(email: string, password: string) {

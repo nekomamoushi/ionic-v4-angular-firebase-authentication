@@ -48,6 +48,7 @@ export class LoginPage implements OnInit {
     }
     const { email, password } = this.loginForm.value;
     this.login(email, password);
+    this.loginForm.reset();
   }
 
   login(email: string, password: string) {
